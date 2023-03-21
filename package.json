@@ -6,6 +6,8 @@
   "author": "Jackson Isaiah",
   "license": "MIT",
   "dependencies": {
+    "@sentry/browser": "^7.44.2",
+    "@sentry/tracing": "^7.44.2",
     "postal-mime": "^1.0.16",
     "wrangler": "^2.13.0"
   }

@@ -1,5 +1,8 @@
 const PostalMime = require('postal-mime');
 
+import * as Sentry from "@sentry/browser";
+import { BrowserTracing } from "@sentry/tracing";
+
 async function streamToArrayBuffer(stream, streamSize) {
 	let result = new Uint8Array(streamSize);
 	let bytesRead = 0;
@@ -17,26 +20,35 @@ async function streamToArrayBuffer(stream, streamSize) {
 
 export default {
     async email(message, env, ctx) {
+      Sentry.init({
+        dsn: env.SENTRY_DSN,
+        integrations: [new BrowserTracing()],
+        tracesSampleRate: 1.0,
+      });
+
+
       switch (message.to) {
         case "admin@catfile.me":     // Admin contact
         case "copyright@catfile.me": // DMCA
         case "abuse@catfile.me":     // Abuse
         case "accounts@catfile.me":  // Shared accounts
         case "sys@catfile.me":       // System notices
+            console.log("Email recieved from " + message.from + " to " + message.to + " with subject " + message.headers.get("subject"));
+        
             const color = {
               "accounts@catfile.me": 1752220,
               "copyright@catfile.me": 15844367,
               "abuse@catfile.me": 15105570, 
               "admin@catfile.me": 10181046,
-              "sys@catfile.me": 3447003
+              "sys@catfile.me": 1752220
             }
             
             const rawEmail = await streamToArrayBuffer(message.raw, message.rawSize);
             const parser = new PostalMime.default();
             const parsedEmail = await parser.parse(rawEmail);
-            let att = ""
+            let attachments = ""
             if (parsedEmail.attachments.length == 0) {
-                att = "No attachments"
+                attachments = "No attachments"
             } else {
                 parsedEmail.attachments.forEach(att => {
                     attachments += att.filename + ", "
@@ -52,7 +64,7 @@ export default {
                   fields: [
                         {
                         name: "Attachments",
-                        value: att
+                        value: attachments
                         },
                     ],
                 "footer": {
