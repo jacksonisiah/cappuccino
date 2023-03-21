@@ -1,0 +1,7 @@
+name = "cappuccino"
+main = "index.js"
+compatibility_date = "2023-03-21"
+usage_model = "bundled"
+
+[vars]
+WEBHOOK_URL = ""
