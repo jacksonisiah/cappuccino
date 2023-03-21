@@ -22,4 +22,4 @@ jobs:
             - name: Deploy to wrangler
               uses: borales/actions-yarn@v4
               with:
-                cmd: yarn wrangler publish
+                cmd: wrangler publish
