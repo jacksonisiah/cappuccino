@@ -1,0 +1,25 @@
+name: Deploy worker
+on: [push]
+
+jobs:
+    build:
+        name: Deploy
+        runs-on: ubuntu-latest
+        env:
+            CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Set Node.js 16.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 16.x
+
+            - name: Run install
+              uses: borales/actions-yarn@v4
+              with:
+                  cmd: install # will run `yarn install` command
+            - name: Deploy to wrangler
+              uses: borales/actions-yarn@v4
+              with:
+                cmd: yarn wrangler publish
