@@ -5,4 +5,3 @@ usage_model = "bundled"
 account_id = "dbbaf3d36fe968721bdbbbaa78a3e888"
 
 [vars]
-WEBHOOK_URL = ""
