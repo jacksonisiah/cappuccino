@@ -2,6 +2,7 @@ name = "cappuccino"
 main = "index.js"
 compatibility_date = "2023-03-21"
 usage_model = "bundled"
+account_id = "dbbaf3d36fe968721bdbbbaa78a3e888"
 
 [vars]
 WEBHOOK_URL = ""

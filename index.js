@@ -18,15 +18,17 @@ async function streamToArrayBuffer(stream, streamSize) {
 export default {
     async email(message, env, ctx) {
       switch (message.to) {
-        case "admin@catfile.me":
-        case "copyright@catfile.me":
-        case "abuse@catfile.me":
-        case "accounts@catfile.me":
+        case "admin@catfile.me":     // Admin contact
+        case "copyright@catfile.me": // DMCA
+        case "abuse@catfile.me":     // Abuse
+        case "accounts@catfile.me":  // Shared accounts
+        case "sys@catfile.me":       // System notices
             const color = {
               "accounts@catfile.me": 1752220,
               "copyright@catfile.me": 15844367,
               "abuse@catfile.me": 15105570, 
-              "admin@catfile.me": 10181046
+              "admin@catfile.me": 10181046,
+              "sys@catfile.me": 3447003
             }
             
             const rawEmail = await streamToArrayBuffer(message.raw, message.rawSize);
@@ -45,7 +47,7 @@ export default {
             const payload = {
               embeds: [{
                 "title": `Email recieved from ${message.from}: ${message.headers.get("subject")}`,
-                "description": parsedEmail.text,
+                "description": parsedEmail.text ? parsedEmail.text : parsedEmail.html, // Fallback when there is only HTML content in the email.
                 "color": color[message.to],
                   fields: [
                         {
@@ -54,7 +56,7 @@ export default {
                         },
                     ],
                 "footer": {
-                    "text": `Message sent to ${message.to}`
+                    "text": `Message sent to ${message.to}. This message is confidential and should not be shared.`
                 }
               }]
             };
@@ -78,8 +80,9 @@ export default {
           await message.forward("jacksonisaiah@pm.me"); // fallback address
           break;
     
+        // Anything else.
         default:
-            await message.forward("jacksonisaiah@pm.me"); // fallback address
+            await message.forward("jacksonisaiah@pm.me");
       }
     }
   }
