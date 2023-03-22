@@ -12,9 +12,7 @@ An email worker created to send notifications to a Discord channel because peopl
 
 Set your Discord webhook in the Cloudflare Dashboard (Environment variables) for messages to be delivered to.
 
-Change the destination and forwarding emails in `index.js` as well as any embed changes you may want to make.
-
-### Deploying 
+Change the destination and forwarding emails in `index.js` as well as any embed changes you may want to make. 
 
 Run `wrangler publish` after configuring and authenticating with Cloudflare to start your worker.
 
