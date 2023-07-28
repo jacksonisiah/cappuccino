@@ -27,10 +27,7 @@ export default {
     });
 
     switch (message.to) {
-      case "admin@catfile.me": // Admin contact
-      case "copyright@catfile.me": // DMCA
-      case "abuse@catfile.me": // Abuse
-      case "accounts@catfile.me": // Shared accounts
+      case "admin@catfile.me": // admin
       case "sys@catfile.me": // System notices
         console.log(
           "Email recieved from " +
@@ -42,9 +39,6 @@ export default {
         );
         try {
           const color = {
-            "accounts@catfile.me": 1752220,
-            "copyright@catfile.me": 15844367,
-            "abuse@catfile.me": 15105570,
             "admin@catfile.me": 10181046,
             "sys@catfile.me": 1752220,
           };
