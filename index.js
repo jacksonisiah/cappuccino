@@ -1,4 +1,4 @@
-const PostalMime = require("postal-mime");
+import { PostalMime } from "@postalsys/postal-mime";
 import { Toucan } from "toucan-js";
 import { RewriteFrames } from "@sentry/integrations";
 
