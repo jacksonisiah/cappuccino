@@ -1,4 +1,4 @@
-import { PostalMime } from "@postalsys/postal-mime";
+import { PostalMime } from "postal-mime";
 import { Toucan } from "toucan-js";
 import { RewriteFrames } from "@sentry/integrations";
 
