@@ -98,17 +98,17 @@ export default {
               console.error("Error sending webhook message:", error);
             });
 
-          await message.forward("jacksonisaiah@pm.me"); // fallback address
+          await message.forward("jackson@catfile.me"); // fallback address
         } catch (error) {
           sentry.captureException(error);
           console.error("Error sending webhook message:", error);
-          await message.forward("jacksonisaiah@pm.me"); // fallback address
+          await message.forward("jackson@catfile.me"); // fallback address
         }
         break;
 
       // Anything else.
       default:
-        await message.forward("jacksonisaiah@pm.me");
+        await message.forward("jackson@catfile.me");
     }
   },
 };
