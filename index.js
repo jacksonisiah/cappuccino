@@ -26,6 +26,7 @@ export default {
       integrations: [new RewriteFrames({ root: "/" })],
     });
 
+    // todo: wildcard any email contained in a env list?
     switch (message.to) {
       case "admin@catfile.me": // admin
       case "sys@catfile.me": // System notices
@@ -95,7 +96,7 @@ export default {
               console.log("Webhook message sent successfully.");
             })
             .catch((error) => {
-              console.error("Error sending webhook message:", error);
+              console.error("Error sending webhook message:", error, parsedEmail.text);
             });
 
           await message.forward("jackson@catfile.me"); // fallback address
