@@ -1,6 +1,5 @@
 name = "cappuccino"
 main = "dist/index.js"
 compatibility_date = "2023-03-21"
-usage_model = "bundled"
 build.command = "npm install && npm run build"
 

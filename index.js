@@ -1,4 +1,4 @@
-import { PostalMime } from "postal-mime";
+import PostalMime from "postal-mime";
 import { Toucan } from "toucan-js";
 import { RewriteFrames } from "@sentry/integrations";
 
@@ -44,12 +44,8 @@ export default {
             "sys@catfile.me": 1752220,
           };
 
-          const rawEmail = await streamToArrayBuffer(
-            message.raw,
-            message.rawSize
-          );
-          const parser = new PostalMime.default();
-          const parsedEmail = await parser.parse(rawEmail);
+          const parsedEmail = await PostalMime.parse(message.raw);
+
           let attachments = "";
           if (parsedEmail.attachments.length == 0) {
             attachments = "No attachments";
@@ -91,25 +87,25 @@ export default {
           })
             .then((response) => {
               if (!response.ok) {
-                throw new Error(`HTTP error ${response.status}`);
+                throw new Error(`HTTP error ${response.status}`); // this should catch invalid webhooks
               }
               console.log("Webhook message sent successfully.");
             })
             .catch((error) => {
-              console.error("Error sending webhook message:", error, parsedEmail.text);
+              console.error("Error sending webhook message:", error);
             });
 
-          await message.forward("jackson@catfile.me"); // fallback address
+          await message.forward(env.FALLBACK_EMAIL); // fallback address
         } catch (error) {
           sentry.captureException(error);
           console.error("Error sending webhook message:", error);
-          await message.forward("jackson@catfile.me"); // fallback address
+          await message.forward(env.FALLBACK_EMAIL); // fallback address
         }
         break;
 
       // Anything else.
       default:
-        await message.forward("jackson@catfile.me");
+        await message.forward(env.FALLBACK_EMAIL);
     }
   },
 };
