@@ -26,6 +26,13 @@ export default {
       integrations: [new RewriteFrames({ root: "/" })],
     });
 
+    if (message.from == env.FALLBACK_EMAIL) {
+      sentry.CaptureMessage(
+        "Received email that may cause a potential infinite loopback",
+      );
+      return;
+    }
+
     // todo: wildcard any email contained in a env list?
     switch (message.to) {
       case "admin@catfile.me": // admin
@@ -36,7 +43,7 @@ export default {
             " to " +
             message.to +
             " with subject " +
-            message.headers.get("subject")
+            message.headers.get("subject"),
         );
         try {
           const color = {

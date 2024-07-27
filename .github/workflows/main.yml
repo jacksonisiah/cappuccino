@@ -15,7 +15,7 @@ jobs:
           accountId: ${{ secrets.ACCOUNT_ID }}
           secrets: |
             SENTRY_DSN
-            WEBHOOK_URL 
+            WEBHOOK_URL
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
