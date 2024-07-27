@@ -2,21 +2,6 @@ import PostalMime from "postal-mime";
 import { Toucan } from "toucan-js";
 import { RewriteFrames } from "@sentry/integrations";
 
-async function streamToArrayBuffer(stream, streamSize) {
-  let result = new Uint8Array(streamSize);
-  let bytesRead = 0;
-  const reader = stream.getReader();
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) {
-      break;
-    }
-    result.set(value, bytesRead);
-    bytesRead += value.length;
-  }
-  return result;
-}
-
 export default {
   async email(message, env, ctx) {
     const sentry = new Toucan({
@@ -27,7 +12,7 @@ export default {
     });
 
     if (message.from == env.FALLBACK_EMAIL) {
-      sentry.CaptureMessage(
+      console.warn(
         "Received email that may cause a potential infinite loopback",
       );
       return;
