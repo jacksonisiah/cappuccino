@@ -1,6 +1,6 @@
 import PostalMime from "postal-mime";
 import { Toucan } from "toucan-js";
-import { RewriteFrames } from "@sentry/integrations";
+import { RewriteFrames, CaptureConsole } from "@sentry/integrations";
 
 export default {
   async email(message, env, ctx) {
@@ -8,7 +8,10 @@ export default {
       dsn: env.SENTRY_DSN,
       ctx,
       message,
-      integrations: [new RewriteFrames({ root: "/" })],
+      integrations: [
+        new RewriteFrames({ root: "/" }),
+        new CaptureConsole({ levels: ["error", "warn"] }),
+      ],
     });
 
     if (message.from == env.FALLBACK_EMAIL) {
