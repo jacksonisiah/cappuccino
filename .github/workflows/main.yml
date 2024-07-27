@@ -20,7 +20,7 @@ jobs:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
       - name: Create Sentry release
-      - uses: getsentry/action-release@v1
+        uses: getsentry/action-release@v1
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
